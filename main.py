@@ -1,4 +1,3 @@
-#!venv/bin/python
 from flask import Flask, request, session, redirect, url_for, \
     abort, render_template, flash
 from Pyitap import TwProxyGetAuth
