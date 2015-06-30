@@ -1,5 +1,5 @@
 from flask import Flask, request, session, redirect, url_for, \
-    abort, render_template, flash
+    abort, render_template
 from Pyitap import TwProxyGetAuth
 import tweepy
 
@@ -14,6 +14,12 @@ app.config.from_object(__name__)
 
 @app.route('/')
 def show():
+    if session.get('logged_in'):
+        auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+        auth.set_access_token(session.get('at'), session.get('as'))
+        api = tweepy.API(auth)
+        status = api.home_timeline()
+        return render_template('send.html', statuses=status)
     return render_template('send.html')
 
 

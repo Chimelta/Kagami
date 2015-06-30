@@ -8,6 +8,13 @@
         <dd><input type=submit value=Share>
       </dl>
     </form>
+    <ul>
+      {% for status in statuses %}
+        <li><h2>{{ status.user.screen_name }}</h2>{{ status.text|safe }}</li>
+      {% else %}
+        <li><em>Something wrong happened.</em></li>
+      {% endfor %}
+    </ul>
   {% endif %}
 {% endblock %}
 
