@@ -10,7 +10,8 @@
     </form>
     <ul>
       {% for status in statuses %}
-        <li><h2>{{ status.user.screen_name }}</h2>{{ status.text|safe }}</li>
+        <li><h2>{{ status.user.name }} (@{{ status.user.screen_name }})</h2>
+          {{ status.text|safe }}</li>
       {% else %}
         <li><em>Something wrong happened.</em></li>
       {% endfor %}
