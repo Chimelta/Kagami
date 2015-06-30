@@ -21,13 +21,13 @@ def show():
 def login():
     error = None
     if request.method == 'POST':
-        session['logged_in'] = True
         try:
             access_token, access_secret = TwProxyGetAuth.init_oauth(request.form['username'],
                                                                     request.form['password'],
                                                                     app.config['CK'], app.config['CS'])
         except:
             return render_template('login.html')
+        session['logged_in'] = True
         session['at'] = access_token
         session['as'] = access_secret
         return redirect(url_for('show'))
