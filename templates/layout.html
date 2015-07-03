@@ -2,6 +2,7 @@
 <title>Kagami</title>
 <div>
     <div>
+        <a href="/">home</a>
         {% if not session.logged_in %}
           <a href="{{ url_for('login') }}">log in</a>
         {% else %}

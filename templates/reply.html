@@ -4,7 +4,7 @@
     <form action="{{ url_for('reply', status_id=status.id) }}" method=post>
       <dl>
         <dt>status:
-        <dd><textarea name=text rows=5 cols=40>@{{status.user.screen_name}} </textarea>
+        <dd><textarea name=text rows=5 cols=40>{{ head }}</textarea>
         <dd><input type=submit value=Share>
       </dl>
     </form>

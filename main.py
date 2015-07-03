@@ -2,6 +2,7 @@ from flask import Flask, request, session, redirect, url_for, \
     abort, render_template
 from Pyitap import TwProxyGetAuth
 import tweepy
+from reply_handler import reply_handle
 
 DEBUG = True
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
@@ -67,7 +68,9 @@ def reply(status_id: str):
                           in_reply_to_status_id=status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('reply.html', status=status)
+    me = api.me()
+    return render_template('reply.html', status=status, head=reply_handle(status.text,
+                                                                          me.screen_name, status.user.screen_name))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
