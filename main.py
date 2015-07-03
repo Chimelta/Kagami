@@ -3,11 +3,14 @@ from flask import Flask, request, session, redirect, url_for, \
 from Pyitap import TwProxyGetAuth
 import tweepy
 from reply_handler import reply_handle
+import ssl
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
 CK = '3nVuSoBZnx6U4vzUxf5w'
 CS = 'Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys'
+context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+context.load_cert_chain('kagami.crt', 'kagami.key')
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -73,4 +76,4 @@ def reply(status_id: str):
                                                                           me.screen_name, status.user.screen_name))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', ssl_context=context)

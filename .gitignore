@@ -55,3 +55,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+#myConfigure
+kagami.crt
+kagami.key
