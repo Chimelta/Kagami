@@ -1,4 +1,8 @@
 import re
+
+def add_at(name: str):
+    return '@' + name + ' '
+
 def reply_handle(text: str, my_name: str, author_name: str):
     pattern = re.compile('(@.*? )')
     matched = pattern.findall(text)
@@ -7,7 +11,7 @@ def reply_handle(text: str, my_name: str, author_name: str):
     else:
         ret = '@' + author_name + ' '
     for x in matched:
-        if x != my_name and x != author_name and x != '@ ':
+        if x != add_at(my_name) and x != add_at(author_name) and x != '@ ':
             ret += x
     return ret
 
