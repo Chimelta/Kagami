@@ -22,7 +22,6 @@ def show():
         return render_template('send.html', statuses=status)
     return render_template('send.html')
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -56,6 +55,19 @@ def update():
     api.update_status(status=request.form['text'])
     return redirect(url_for('show'))
 
+@app.route('/reply/<status_id>', methods=['GET', 'POST'])
+def reply(status_id: str):
+    if not session.get('logged_in'):
+        abort(401)
+    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+    auth.set_access_token(session.get('at'), session.get('as'))
+    api = tweepy.API(auth)
+    if request.method == 'POST':
+        api.update_status(status=request.form['text'],
+                          in_reply_to_status_id=status_id)
+        return redirect(url_for('show'))
+    status = api.get_status(status_id)
+    return render_template('reply.html', status=status)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
