@@ -2,10 +2,10 @@ from flask import Flask, request, session, redirect, url_for, \
     abort, render_template
 from Pyitap import TwProxyGetAuth
 import tweepy
-from reply_handler import reply_handle
+from handler import reply_handle
 import ssl
 
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
 CK = '3nVuSoBZnx6U4vzUxf5w'
 CS = 'Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys'
