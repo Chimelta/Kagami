@@ -1,5 +1,5 @@
 from kagami import app
-from flask import session, render_template, abort, redirect, request, url_for
+from flask import session, render_template, abort, redirect, url_for
 import tweepy
 
 

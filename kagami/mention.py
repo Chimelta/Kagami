@@ -1,7 +1,6 @@
 from kagami import app
-from flask import session, render_template, abort, redirect, request, url_for
+from flask import session, render_template, abort
 import tweepy
-from kagami.handler import reply_handle
 
 
 @app.route('/mention')
