@@ -10,16 +10,21 @@
     </form>
     <ul>
       {% for status in statuses %}
-        <li><h2>{{ status.user.name }} (@{{ status.user.screen_name }})</h2>
-          <p><a href={{ url_for('reply', status_id=status.id_str) }}>reply</a>
+        <li><h2>{{ status.user.name }} (<a href="{{ url_for('user', username=status.user.screen_name) }}">
+            @{{ status.user.screen_name }}
+        </a>)</h2>
+          <p>
+            <a href="{{ url_for('reply', status_id=status.id_str) }}">reply</a>
             {% if not status.retweeted %}
-              <a href={{ url_for('retweet', status_id=status.id_str) }}>retweet</a>
+              <a href="{{ url_for('retweet', status_id=status.id_str) }}">retweet</a>
             {% endif %}
             {% if status.retweeted_status %}
-              <a href={{ url_for('unretweet', status_id=status.id_str) }}>unretweet</a>
+              <a href="{{ url_for('unretweet', status_id=status.id_str) }}">unretweet</a>
             {% endif %}
-            {% if not status.favorited %}<a href={{ url_for('fav', status_id=status.id_str) }}>fav</a>
-            {% else %}<a href={{ url_for('unfav', status_id=status.id_str) }}>unfav</a>
+            {% if not status.favorited %}
+              <a href="{{ url_for('fav', status_id=status.id_str) }}">fav</a>
+            {% else %}
+              <a href="{{ url_for('unfav', status_id=status.id_str) }}">unfav</a>
             {% endif %}
           </p>
           {{ status.text }}</li>
