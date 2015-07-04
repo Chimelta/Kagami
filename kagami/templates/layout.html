@@ -3,6 +3,7 @@
 <div>
     <div>
         <a href="/">home</a>
+        <a href="/mention">mention</a>
         {% if not session.logged_in %}
           <a href="{{ url_for('login') }}">log in</a>
         {% else %}

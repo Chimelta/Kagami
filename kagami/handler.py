@@ -2,7 +2,7 @@ import re
 
 
 def add_at(name: str):
-    return '@' + name + ' '
+    return '@' + name
 
 
 def reply_handle(text: str, my_name: str, author_name: str):

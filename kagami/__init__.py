@@ -1,6 +1,7 @@
 import ssl
-from flask import Flask
+from flask import Flask, session
 from kagami.handler import reply_handle
+from datetime import timedelta
 
 DEBUG = True
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
@@ -12,5 +13,12 @@ context.load_cert_chain('kagami.crt', 'kagami.key')
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(days=31)
+
 import kagami.auth
 import kagami.status
+import kagami.mention
