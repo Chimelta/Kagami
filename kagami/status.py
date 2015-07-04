@@ -69,3 +69,31 @@ def unfav(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('unfav.html', status=status)
+
+
+@app.route('/retweet/<status_id>', methods=['GET', 'POST'])
+def retweet(status_id: str):
+    if not session.get('logged_in'):
+        abort(401)
+    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+    auth.set_access_token(session.get('at'), session.get('as'))
+    api = tweepy.API(auth)
+    if request.method == 'POST':
+        api.retweet(status_id)
+        return redirect(url_for('show'))
+    status = api.get_status(status_id)
+    return render_template('retweet.html', status=status)
+
+
+@app.route('/unretweet/<status_id>', methods=['GET', 'POST'])
+def unretweet(status_id: str):
+    if not session.get('logged_in'):
+        abort(401)
+    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+    auth.set_access_token(session.get('at'), session.get('as'))
+    api = tweepy.API(auth)
+    if request.method == 'POST':
+        api.destroy_status(status_id)
+        return redirect(url_for('show'))
+    status = api.get_status(status_id)
+    return render_template('unretweet.html', status=status)

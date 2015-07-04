@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('retweet', status_id=status.id) }}" method=post>
+      <dl>
+        <dd><input type=submit value=Retweet>
+      </dl>
+    </form>
+    <li><h2>{{ status.user.name }} (@{{ status.user.screen_name }})</h2>
+      {{ status.text|safe }}</li>
+  {% endif %}
+{% endblock %}

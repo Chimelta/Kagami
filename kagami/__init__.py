@@ -22,3 +22,4 @@ def make_session_permanent():
 import kagami.auth
 import kagami.status
 import kagami.mention
+import kagami.user
