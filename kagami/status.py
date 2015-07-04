@@ -11,7 +11,7 @@ def show():
         auth.set_access_token(session.get('at'), session.get('as'))
         api = tweepy.API(auth)
         status = api.home_timeline()
-        return render_template('send.html', statuses=status)
+        return render_template('send.html', statuses=status, me=session.get('me'))
     return render_template('send.html')
 
 

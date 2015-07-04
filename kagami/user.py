@@ -11,7 +11,7 @@ def user(username: str):
     auth.set_access_token(session.get('at'), session.get('as'))
     api = tweepy.API(auth)
     status_list = api.user_timeline(username)
-    return render_template('send.html', head='@'+username+' ', statuses=status_list)
+    return render_template('send.html', head='@'+username+' ', statuses=status_list, me=session.get('me'))
 
 
 @app.route('/me')
