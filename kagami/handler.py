@@ -16,3 +16,7 @@ def reply_handle(text: str, my_name: str, author_name: str):
         if x != add_at(my_name) and x != add_at(author_name):
             ret += x + ' '
     return ret
+
+
+def quote_handle(text: str, author_name: str):
+    return 'RT @'+author_name+': '+text

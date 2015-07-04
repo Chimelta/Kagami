@@ -1,7 +1,7 @@
 from kagami import app
 from flask import session, render_template, abort, redirect, request, url_for
 import tweepy
-from kagami.handler import reply_handle
+from kagami.handler import reply_handle, quote_handle
 
 
 @app.route('/')
@@ -38,9 +38,9 @@ def reply(status_id: str):
                           in_reply_to_status_id=status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    me = api.me()
     return render_template('reply.html', status=status, head=reply_handle(status.text,
-                                                                          me.screen_name, status.user.screen_name))
+                                                                          session.get('me'),
+                                                                          status.user.screen_name))
 
 
 @app.route('/fav/<status_id>', methods=['GET', 'POST'])
@@ -97,3 +97,19 @@ def unretweet(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('unretweet.html', status=status)
+
+
+@app.route('/quote/<status_id>', methods=['GET', 'POST'])
+def quote(status_id: str):
+    if not session.get('logged_in'):
+        abort(401)
+    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+    auth.set_access_token(session.get('at'), session.get('as'))
+    api = tweepy.API(auth)
+    if request.method == 'POST':
+        api.update_status(status=request.form['text'],
+                          in_reply_to_status_id=status_id)
+        return redirect(url_for('show'))
+    status = api.get_status(status_id)
+    return render_template('reply.html', status=status, head=quote_handle(status.text,
+                                                                          status.user.screen_name))

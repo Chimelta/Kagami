@@ -21,6 +21,7 @@
             {% if status.retweeted_status and status.user.screen_name == me %}
               <a href="{{ url_for('unretweet', status_id=status.id_str) }}">unretweet</a>
             {% endif %}
+            <a href="{{ url_for('quote', status_id=status.id_str) }}">quote</a>
             {% if not status.favorited %}
               <a href="{{ url_for('fav', status_id=status.id_str) }}">fav</a>
             {% else %}
