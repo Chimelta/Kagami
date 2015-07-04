@@ -6,13 +6,25 @@ from kagami.handler import reply_handle, quote_handle
 
 @app.route('/')
 def show():
-    if session.get('logged_in'):
-        auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-        auth.set_access_token(session.get('at'), session.get('as'))
-        api = tweepy.API(auth)
-        status = api.home_timeline()
-        return render_template('send.html', statuses=status, me=session.get('me'))
-    return render_template('send.html')
+    if not session.get('logged_in'):
+        return render_template('send.html')
+    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+    auth.set_access_token(session.get('at'), session.get('as'))
+    api = tweepy.API(auth)
+    status = api.home_timeline()
+    return render_template('send.html', statuses=status, me=session.get('me'), page='1', npage='2', op='show_page')
+
+
+@app.route('/<page>')
+def show_page(page: str):
+    if not session.get('logged_in'):
+        abort(401)
+    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
+    auth.set_access_token(session.get('at'), session.get('as'))
+    api = tweepy.API(auth)
+    status = api.home_timeline(page=page)
+    return render_template('send.html', statuses=status, me=session.get('me'),
+                           page=page, npage=int(page)+1, ppage=int(page)-1, op='show_page')
 
 
 @app.route('/update', methods=['POST'])
