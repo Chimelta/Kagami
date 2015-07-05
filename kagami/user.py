@@ -1,7 +1,7 @@
 from kagami import app
 from flask import session, render_template, abort, redirect, url_for
 import tweepy
-
+from flask import request
 
 @app.route('/user/<username>')
 def user(username: str):
@@ -10,19 +10,10 @@ def user(username: str):
     auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
     auth.set_access_token(session.get('at'), session.get('as'))
     api = tweepy.API(auth)
-    status_list = api.user_timeline(username)
-    return render_template('user.html', head='@'+username+' ', statuses=status_list, me=session.get('me'),
-                           page='1', npage='2', username=username)
-
-
-@app.route('/user/<username>/<page>')
-def user_page(username: str, page: str):
-    if not session.get('logged_in'):
-        abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
-    status_list = api.user_timeline(username, page=page)
+    page = '1'
+    if request.args.get('page', ''):
+        page = request.args.get('page', '')
+    status_list = api.user_timeline(username, page=int(page))
     return render_template('user.html', head='@'+username+' ', statuses=status_list, me=session.get('me'),
                            page=page, npage=int(page)+1, ppage=int(page)-1, username=username)
 

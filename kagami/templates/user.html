@@ -30,9 +30,9 @@
           {{ status.text }}</li>
       {% endfor %}
       {% if page != '1' %}
-        <a href="{{ url_for('user_page', page=ppage, username=username) }}">previous</a>
+        <a href="{{ url_for('user', page=ppage, username=username) }}">previous</a>
       {% endif %}
-      <a href="{{ url_for('user_page', page=npage, username=username) }}">next</a>
+      <a href="{{ url_for('user', page=npage, username=username) }}">next</a>
     </ul>
   {% endif %}
 {% endblock %}

@@ -11,20 +11,12 @@ def show():
     auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
     auth.set_access_token(session.get('at'), session.get('as'))
     api = tweepy.API(auth)
-    status = api.home_timeline()
-    return render_template('send.html', statuses=status, me=session.get('me'), page='1', npage='2', op='show_page')
-
-
-@app.route('/<page>')
-def show_page(page: str):
-    if not session.get('logged_in'):
-        abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
-    status = api.home_timeline(page=page)
+    page = '1'
+    if request.args.get('page', ''):
+        page = request.args.get('page', '')
+    status = api.home_timeline(page=int(page))
     return render_template('send.html', statuses=status, me=session.get('me'),
-                           page=page, npage=int(page)+1, ppage=int(page)-1, op='show_page')
+                           page=page, npage=int(page)+1, ppage=int(page)-1, op='show')
 
 
 @app.route('/update', methods=['POST'])
