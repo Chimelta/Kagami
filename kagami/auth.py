@@ -1,7 +1,6 @@
-from kagami import app
+from kagami import app, get_api
 from Pyitap import TwProxyGetAuth
 from flask import render_template, url_for, session, redirect, request
-import tweepy
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -17,9 +16,7 @@ def login():
         session['logged_in'] = True
         session['at'] = access_token
         session['as'] = access_secret
-        auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-        auth.set_access_token(access_token, access_secret)
-        api = tweepy.API(auth)
+        api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
         session['me'] = api.me().screen_name
         return redirect(url_for('show'))
     return render_template('login.html', error=error)

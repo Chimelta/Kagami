@@ -2,6 +2,7 @@ import ssl
 from flask import Flask, session
 from kagami.handler import reply_handle
 from datetime import timedelta
+import tweepy
 
 DEBUG = True
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
@@ -18,6 +19,13 @@ app.config.from_object(__name__)
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=31)
+
+
+def get_api(consumer_key: str, consumer_secret: str, access_token: str, access_secret: str):
+    tw_auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    tw_auth.set_access_token(access_token, access_secret)
+    return tweepy.API(tw_auth)
+
 
 import kagami.auth
 import kagami.status

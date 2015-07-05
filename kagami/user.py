@@ -1,15 +1,12 @@
-from kagami import app
+from kagami import app, get_api
 from flask import session, render_template, abort, redirect, url_for
-import tweepy
 from flask import request
 
 @app.route('/user/<username>')
 def user(username: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     page = '1'
     if request.args.get('page', ''):
         page = request.args.get('page', '')
@@ -22,8 +19,6 @@ def user(username: str):
 def me():
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     username = api.me().screen_name
     return redirect(url_for('user', username=username))

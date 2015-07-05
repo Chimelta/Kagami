@@ -1,6 +1,5 @@
-from kagami import app
+from kagami import app, get_api
 from flask import session, render_template, abort, redirect, request, url_for
-import tweepy
 from kagami.handler import reply_handle, quote_handle
 
 
@@ -8,9 +7,7 @@ from kagami.handler import reply_handle, quote_handle
 def show():
     if not session.get('logged_in'):
         return render_template('send.html')
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     page = '1'
     if request.args.get('page', ''):
         page = request.args.get('page', '')
@@ -23,9 +20,7 @@ def show():
 def update():
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     api.update_status(status=request.form['text'])
     return redirect(url_for('show'))
 
@@ -34,86 +29,84 @@ def update():
 def reply(status_id: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     if request.method == 'POST':
         api.update_status(status=request.form['text'],
                           in_reply_to_status_id=status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('reply.html', status=status, head=reply_handle(status.text,
+    return render_template('detail.html', status=status, head=reply_handle(status.text,
                                                                           session.get('me'),
-                                                                          status.user.screen_name))
+                                                                          status.user.screen_name),
+                           reply=True)
 
 
 @app.route('/fav/<status_id>', methods=['GET', 'POST'])
 def fav(status_id: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     if request.method == 'POST':
         api.create_favorite(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('fav.html', status=status)
+    return render_template('detail.html', fav=True, status=status)
 
 
 @app.route('/unfav/<status_id>', methods=['GET', 'POST'])
 def unfav(status_id: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     if request.method == 'POST':
         api.destroy_favorite(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('unfav.html', status=status)
+    return render_template('detail.html', unfav=True, status=status)
 
 
 @app.route('/retweet/<status_id>', methods=['GET', 'POST'])
 def retweet(status_id: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     if request.method == 'POST':
         api.retweet(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('retweet.html', status=status)
+    return render_template('detail.html', retweet=True, status=status)
 
 
 @app.route('/unretweet/<status_id>', methods=['GET', 'POST'])
 def unretweet(status_id: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     if request.method == 'POST':
         api.destroy_status(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('unretweet.html', status=status)
+    return render_template('detail.html', unretweet=True, status=status)
 
 
 @app.route('/quote/<status_id>', methods=['GET', 'POST'])
 def quote(status_id: str):
     if not session.get('logged_in'):
         abort(401)
-    auth = tweepy.OAuthHandler(app.config['CK'], app.config['CS'])
-    auth.set_access_token(session.get('at'), session.get('as'))
-    api = tweepy.API(auth)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     if request.method == 'POST':
         api.update_status(status=request.form['text'],
                           in_reply_to_status_id=status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('reply.html', status=status, head=quote_handle(status.text,
-                                                                          status.user.screen_name))
+    return render_template('detail.html', status=status, quote=True,
+                           head=quote_handle(status.text, status.user.screen_name))
+
+
+@app.route('/detail/<status_id>')
+def detail(status_id: str):
+    if not session.get('logged_in'):
+        abort(401)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
+    status = api.get_status(status_id)
+    return render_template('detail.html', status=status)
