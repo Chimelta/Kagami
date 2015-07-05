@@ -26,6 +26,7 @@
             {% else %}
               <a href="{{ url_for('unfav', status_id=status.id_str) }}">unfav</a>
             {% endif %}
+            <a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a>
           </p>
           {{ status.text }}</li>
       {% endfor %}
