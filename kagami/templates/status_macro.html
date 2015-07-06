@@ -1,0 +1,85 @@
+{% macro status_info(status, me) %}
+<li>
+    <h2>
+        {{ status.user.name }} (
+        <a href="{{ url_for('user', username=status.user.screen_name) }}">
+            @{{ status.user.screen_name }}
+        </a>
+        )
+    </h2>
+    <p>
+        <a href="{{ url_for('reply', status_id=status.id_str) }}">reply</a>
+        {% if not status.retweeted %}
+            <a href="{{ url_for('retweet', status_id=status.id_str) }}">retweet</a>
+        {% endif %}
+        {% if status.retweeted_status and status.user.screen_name == me %}
+            <a href="{{ url_for('unretweet', status_id=status.id_str) }}">unretweet</a>
+        {% endif %}
+        <a href="{{ url_for('quote', status_id=status.id_str) }}">quote</a>
+        {% if not status.favorited %}
+            <a href="{{ url_for('fav', status_id=status.id_str) }}">fav</a>
+        {% else %}
+            <a href="{{ url_for('unfav', status_id=status.id_str) }}">unfav</a>
+        {% endif %}
+        {% if status.user.screen_name == me %}
+            <a href="{{ url_for('delete', status_id=status.id_str) }}">delete</a>
+        {% endif %}
+    </p>
+    {{ status.text }}
+    <p><a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a></p>
+</li>
+{% endmacro %}
+
+{% macro status_detail(status, me) %}
+    <li>
+        <h2>
+            {{ status.user.name }} (
+            <a href="{{ url_for('user', username=status.user.screen_name) }}">
+                @{{ status.user.screen_name }}
+            </a>
+            )
+        </h2>
+        <p>
+            <a href="{{ url_for('reply', status_id=status.id_str) }}">reply</a>
+            {% if not status.retweeted %}
+                <a href="{{ url_for('retweet', status_id=status.id_str) }}">retweet</a>
+            {% endif %}
+            {% if status.retweeted_status and status.user.screen_name == me %}
+                <a href="{{ url_for('unretweet', status_id=status.id_str) }}">unretweet</a>
+            {% endif %}
+            <a href="{{ url_for('quote', status_id=status.id_str) }}">quote</a>
+            {% if not status.favorited %}
+                <a href="{{ url_for('fav', status_id=status.id_str) }}">fav</a>
+            {% else %}
+                <a href="{{ url_for('unfav', status_id=status.id_str) }}">unfav</a>
+            {% endif %}
+            {% if status.user.screen_name == me %}
+                <a href="{{ url_for('delete', status_id=status.id_str) }}">delete</a>
+            {% endif %}
+        </p>
+        {{ status.text }}
+        {% if status.in_reply_to_status_id %}
+        <p><a href="{{ url_for('detail', status_id=status.in_reply_to_status_id_str) }}">
+            in reply to @{{ status.in_reply_to_screen_name }}
+        </a></p>
+    {% endif %}
+    </li>
+{% endmacro %}
+
+{% macro confirm_botton(op, text, status_id) %}
+    <form action="{{ url_for(op, status_id=status_id) }}" method=post>
+        <dl>
+            <dd><input type=submit value="{{ text }}">
+        </dl>
+    </form>
+{% endmacro %}
+
+{% macro textarea(op, text, head='', status_id='') %}
+    <form action="{{ url_for(op, status_id=status_id) }}" method=post>
+        <dl>
+            <dt>status:
+            <dd><textarea name=text rows=5 cols=40>{{ head }}</textarea>
+            <dd><input type=submit value="{{ text }}">
+        </dl>
+    </form>
+{% endmacro %}

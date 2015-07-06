@@ -12,4 +12,5 @@ def mention():
         page = request.args.get('page', '')
     mention_list = api.mentions_timeline(page=page)
     return render_template('send.html', statuses=mention_list,
-                           page=page, ppage=str(int(page)-1), npage=str(int(page)+1), op='mention')
+                           page=page, ppage=str(int(page)-1),
+                           npage=str(int(page)+1), op='mention', me=session.get('me'))

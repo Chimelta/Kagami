@@ -38,7 +38,7 @@ def reply(status_id: str):
     return render_template('detail.html', status=status, head=reply_handle(status.text,
                                                                           session.get('me'),
                                                                           status.user.screen_name),
-                           reply=True)
+                           reply=True, me=session.get('me'))
 
 
 @app.route('/fav/<status_id>', methods=['GET', 'POST'])
@@ -50,7 +50,7 @@ def fav(status_id: str):
         api.create_favorite(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('detail.html', fav=True, status=status)
+    return render_template('detail.html', fav=True, status=status, me=session.get('me'))
 
 
 @app.route('/unfav/<status_id>', methods=['GET', 'POST'])
@@ -62,7 +62,7 @@ def unfav(status_id: str):
         api.destroy_favorite(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('detail.html', unfav=True, status=status)
+    return render_template('detail.html', unfav=True, status=status, me=session.get('me'))
 
 
 @app.route('/retweet/<status_id>', methods=['GET', 'POST'])
@@ -74,7 +74,7 @@ def retweet(status_id: str):
         api.retweet(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('detail.html', retweet=True, status=status)
+    return render_template('detail.html', retweet=True, status=status, me=session.get('me'))
 
 
 @app.route('/unretweet/<status_id>', methods=['GET', 'POST'])
@@ -86,7 +86,7 @@ def unretweet(status_id: str):
         api.destroy_status(status_id)
         return redirect(url_for('show'))
     status = api.get_status(status_id)
-    return render_template('detail.html', unretweet=True, status=status)
+    return render_template('detail.html', unretweet=True, status=status, me=session.get('me'))
 
 
 @app.route('/quote/<status_id>', methods=['GET', 'POST'])
@@ -100,7 +100,7 @@ def quote(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', status=status, quote=True,
-                           head=quote_handle(status.text, status.user.screen_name))
+                           head=quote_handle(status.text, status.user.screen_name), me=session.get('me'))
 
 
 @app.route('/detail/<status_id>')
@@ -109,4 +109,16 @@ def detail(status_id: str):
         abort(401)
     api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     status = api.get_status(status_id)
-    return render_template('detail.html', status=status)
+    return render_template('detail.html', status=status, me=session.get('me'))
+
+
+@app.route('/delete/<status_id>', methods=['GET', 'POST'])
+def delete(status_id: str):
+    if not session.get('logged_in'):
+        abort(401)
+    api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
+    status = api.get_status(status_id)
+    if request.method == 'POST':
+        api.destroy_status(status_id)
+        return redirect(url_for('show'))
+    return render_template('detail.html', status=status, delete=True, me=session.get('me'))
