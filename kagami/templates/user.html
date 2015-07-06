@@ -4,9 +4,9 @@
         {% import 'page_macro.html' as page_macro %}
         {% import 'status_macro.html' as status_macro %}
         {{ status_macro.textarea(op='update', head=head, text='Mention') }}
-        <ul>
             <h1>{{ statuses[0].user.name }} (@{{ statuses[0].user.screen_name }})</h1>
             <p>TODO: User information here.</p>
+        <ul>
             {% for status in statuses %}
                 {% import 'status_macro.html' as status_macro %}
                 {{ status_macro.status_info(status=status, me=me) }}
