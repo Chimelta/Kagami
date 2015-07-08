@@ -1,10 +1,9 @@
 import ssl
 from flask import Flask, session
-from kagami.handler import reply_handle
 from datetime import timedelta
 import tweepy
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
 CK = '3nVuSoBZnx6U4vzUxf5w'
 CS = 'Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys'

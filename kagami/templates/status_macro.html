@@ -1,4 +1,4 @@
-{% macro status_info(status, me) %}
+{% macro status_info(status, me, minutes) %}
 <li>
     <h2>
         {{ status.user.name }} (
@@ -26,11 +26,12 @@
         {% endif %}
     </p>
     {{ status.text }}
-    <p><a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a></p>
+    <p>{{ minutes }} minutes ago
+        <a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a></p>
 </li>
 {% endmacro %}
 
-{% macro status_detail(status, me) %}
+{% macro status_detail(status, me, date) %}
     <li>
         <h2>
             {{ status.user.name }} (
@@ -58,6 +59,7 @@
             {% endif %}
         </p>
         {{ status.text }}
+        <p>{{ date }}</p>
         {% if status.in_reply_to_status_id %}
         <p><a href="{{ url_for('detail', status_id=status.in_reply_to_status_id_str) }}">
             in reply to @{{ status.in_reply_to_screen_name }}

@@ -1,4 +1,6 @@
 import re
+import datetime
+from flask import session
 
 
 def add_at(name: str):
@@ -20,3 +22,13 @@ def reply_handle(text: str, my_name: str, author_name: str):
 
 def quote_handle(text: str, author_name: str):
     return 'RT @'+author_name+': '+text
+
+
+def minutes_handle(status_time: datetime.datetime):
+    now_time = datetime.datetime.utcnow()
+    return str(int((now_time-status_time).seconds/60))
+
+
+def date_handle(status_time: datetime.datetime):
+    detail_time = status_time + datetime.timedelta(seconds=session.get('offset'))
+    return detail_time.strftime("%Y-%m-%d %H:%M:%S")

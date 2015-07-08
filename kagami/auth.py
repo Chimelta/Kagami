@@ -17,7 +17,9 @@ def login():
         session['at'] = access_token
         session['as'] = access_secret
         api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
-        session['me'] = api.me().screen_name
+        me = api.me()
+        session['me'] = me.screen_name
+        session['offset'] = me.utc_offset
         return redirect(url_for('show'))
     return render_template('login.html', error=error)
 

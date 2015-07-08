@@ -23,6 +23,6 @@
         {% if delete %}
             {{ status_macro.confirm_botton('delete', 'Delete', status_id=status.id_str) }}
         {% endif %}
-        {{ status_macro.status_detail(status=status, me=me) }}
+        {{ status_macro.status_detail(status=status, me=me, date=date_handler(status.created_at)) }}
     {% endif %}
 {% endblock %}
