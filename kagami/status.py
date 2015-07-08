@@ -37,7 +37,7 @@ def reply(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', status=status,
-                           head=reply_handle(status.text, session.get('me'), status.user.screen_name),
+                           head=reply_handle(status.text, status.user.screen_name),
                            reply=True, me=session.get('me'),
                            date_handler=date_handle)
 

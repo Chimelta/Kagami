@@ -9,7 +9,8 @@
         <ul>
             {% for status in statuses %}
                 {% import 'status_macro.html' as status_macro %}
-                {{ status_macro.status_info(status=status, me=me) }}
+                {{ status_macro.status_info(status=status, me=me,
+                   minutes=minutes_handler(status.created_at)) }}
             {% endfor %}
             {{ page_macro.user_page_navigation(op='user', page=page, npage=npage, ppage=ppage, username=username) }}
         </ul>

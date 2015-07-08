@@ -1,6 +1,8 @@
 from kagami import app, get_api
 from flask import session, render_template, abort, redirect, url_for
 from flask import request
+from kagami.handler import minutes_handle
+
 
 @app.route('/user/<username>')
 def user(username: str):
@@ -12,7 +14,8 @@ def user(username: str):
         page = request.args.get('page', '')
     status_list = api.user_timeline(username, page=int(page))
     return render_template('user.html', head='@'+username+' ', statuses=status_list, me=session.get('me'),
-                           page=page, npage=int(page)+1, ppage=int(page)-1, username=username)
+                           page=page, npage=int(page)+1, ppage=int(page)-1, username=username,
+                           minutes_handler=minutes_handle)
 
 
 @app.route('/me')
