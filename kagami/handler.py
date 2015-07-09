@@ -26,7 +26,16 @@ def quote_handle(text: str, author_name: str):
 
 def minutes_handle(status_time: datetime.datetime):
     now_time = datetime.datetime.utcnow()
-    return str(int((now_time-status_time).days*1440+(now_time-status_time).seconds/60))
+    minutes = int((now_time-status_time).days*1440+(now_time-status_time).seconds/60)
+    if minutes >= 60:
+        hours = int(minutes/60)
+        if hours >= 24:
+            days = int(hours/24)
+            return str(days) + ' days'
+        else:
+            return str(hours) + ' hours'
+    else:
+        return str(minutes) + ' minutes'
 
 
 def date_handle(status_time: datetime.datetime):

@@ -26,7 +26,7 @@
         {% endif %}
     </p>
     {{ status.text }}
-    <p>{{ minutes }} minutes ago
+    <p>{{ minutes }} ago
         <a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a></p>
 </li>
 {% endmacro %}
