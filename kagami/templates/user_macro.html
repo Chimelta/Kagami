@@ -1,0 +1,6 @@
+{% macro user_info(user) %}
+    <p>tweets: {{ user.statuses_count }}</p>
+    <p>followers: {{ user.followers_count }}</p>
+    <p>following: {{ user.friends_count }}</p>
+    <p>created at: {{ user.created_at }}</p>
+{% endmacro %}

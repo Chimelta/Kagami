@@ -3,9 +3,10 @@
     {% if session.logged_in %}
         {% import 'page_macro.html' as page_macro %}
         {% import 'status_macro.html' as status_macro %}
+        {% import 'user_macro.html' as user_macro %}
         {{ status_macro.textarea(op='update', head=head, text='Mention') }}
-            <h1>{{ statuses[0].user.name }} (@{{ statuses[0].user.screen_name }})</h1>
-            <p>TODO: User information here.</p>
+        <h1>{{ statuses[0].user.name }} (@{{ statuses[0].user.screen_name }})</h1>
+        {{ user_macro.user_info(user) }}
         <ul>
             {% for status in statuses %}
                 {% import 'status_macro.html' as status_macro %}

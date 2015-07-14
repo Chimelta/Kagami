@@ -3,7 +3,7 @@ from flask import Flask, session
 from datetime import timedelta
 import tweepy
 
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
 CK = '3nVuSoBZnx6U4vzUxf5w'
 CS = 'Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys'

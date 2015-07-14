@@ -13,9 +13,10 @@ def user(username: str):
     if request.args.get('page', ''):
         page = request.args.get('page', '')
     status_list = api.user_timeline(username, page=int(page))
+    user = api.get_user(username)
     return render_template('user.html', head='@'+username+' ', statuses=status_list, me=session.get('me'),
                            page=page, npage=int(page)+1, ppage=int(page)-1, username=username,
-                           minutes_handler=minutes_handle)
+                           minutes_handler=minutes_handle, user=user)
 
 
 @app.route('/me')
