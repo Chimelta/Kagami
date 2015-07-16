@@ -1,6 +1,7 @@
 import ssl
-from flask import Flask, session
 from datetime import timedelta
+
+from flask import Flask, session
 import tweepy
 
 DEBUG = True
@@ -30,3 +31,4 @@ import kagami.auth
 import kagami.status
 import kagami.mention
 import kagami.user
+import kagami.utils.nl2br
