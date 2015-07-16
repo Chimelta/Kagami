@@ -25,7 +25,7 @@
             <a href="{{ url_for('delete', status_id=status.id_str) }}">delete</a>
         {% endif %}
     </p>
-    {{ status.text|urlize }}
+        {{ status.text|safe|urlize }}
     <p>{{ minutes }} ago
         <a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a></p>
 </li>
@@ -58,7 +58,7 @@
                 <a href="{{ url_for('delete', status_id=status.id_str) }}">delete</a>
             {% endif %}
         </p>
-        {{ status.text|urlize }}
+        {{ status.text|safe|urlize }}
         <p>{{ date }}</p>
         {% if status.in_reply_to_status_id %}
         <p><a href="{{ url_for('detail', status_id=status.in_reply_to_status_id_str) }}">
