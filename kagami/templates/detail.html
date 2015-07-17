@@ -3,10 +3,10 @@
     {% if session.logged_in %}
         {% import 'status_macro.html' as status_macro %}
         {% if reply %}
-            {{ status_macro.textarea(op='reply', head=head, text='Reply', status_id=status.id_str) }}
+            {{ status_macro.textarea(op='reply', head=handler.reply_handle(status.text, status.user.screen_name), text='Reply', status_id=status.id_str) }}
         {% endif %}
         {% if quote %}
-            {{ status_macro.textarea(op='quote', head=head, text='Quote', status_id=status.id_str) }}
+            {{ status_macro.textarea(op='quote', head=handler.quote_handle(status.text, status.user.screen_name), text='Quote', status_id=status.id_str) }}
         {% endif %}
         {% if fav %}
             {{ status_macro.confirm_botton('fav', 'Fav', status_id=status.id_str) }}
@@ -23,6 +23,6 @@
         {% if delete %}
             {{ status_macro.confirm_botton('delete', 'Delete', status_id=status.id_str) }}
         {% endif %}
-        {{ status_macro.status_detail(status=status, me=me, date=date_handler(status.created_at)) }}
+        {{ status_macro.status_detail(status=status, me=me, date=handler.date_handle(status.created_at)) }}
     {% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 from kagami import app, get_api
 from flask import session, render_template, abort, redirect, request, url_for
-from kagami.handler import reply_handle, quote_handle, minutes_handle, date_handle
+import kagami.handler
 
 
 @app.route('/')
@@ -14,7 +14,7 @@ def show():
     status = api.home_timeline(page=int(page))
     return render_template('send.html', statuses=status, me=session.get('me'),
                            page=page, npage=int(page)+1, ppage=int(page)-1, op='show',
-                           minutes_handler=minutes_handle)
+                           handler=kagami.handler)
 
 
 @app.route('/update', methods=['POST'])
@@ -37,9 +37,9 @@ def reply(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', status=status,
-                           head=reply_handle(status.text, status.user.screen_name),
+                           head=kagami.handler.reply_handle(status.text, status.user.screen_name),
                            reply=True, me=session.get('me'),
-                           date_handler=date_handle)
+                           handler=kagami.handler)
 
 
 @app.route('/fav/<status_id>', methods=['GET', 'POST'])
@@ -52,7 +52,7 @@ def fav(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', fav=True, status=status,
-                           me=session.get('me'), date_handler=date_handle)
+                           me=session.get('me'), handler=kagami.handler)
 
 
 @app.route('/unfav/<status_id>', methods=['GET', 'POST'])
@@ -65,7 +65,7 @@ def unfav(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', unfav=True, status=status,
-                           me=session.get('me'), date_handler=date_handle)
+                           me=session.get('me'), handler=kagami.handler)
 
 
 @app.route('/retweet/<status_id>', methods=['GET', 'POST'])
@@ -78,7 +78,7 @@ def retweet(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', retweet=True, status=status,
-                           me=session.get('me'), date_handler=date_handle)
+                           me=session.get('me'), handler=kagami.handler)
 
 
 @app.route('/unretweet/<status_id>', methods=['GET', 'POST'])
@@ -91,7 +91,7 @@ def unretweet(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', unretweet=True, status=status,
-                           me=session.get('me'), date_handler=date_handle)
+                           me=session.get('me'), handler=kagami.handler)
 
 
 @app.route('/quote/<status_id>', methods=['GET', 'POST'])
@@ -105,8 +105,8 @@ def quote(status_id: str):
         return redirect(url_for('show'))
     status = api.get_status(status_id)
     return render_template('detail.html', status=status, quote=True,
-                           head=quote_handle(status.text, status.user.screen_name),
-                           me=session.get('me'), date_handler=date_handle)
+                           head=kagami.handler.quote_handle(status.text, status.user.screen_name),
+                           me=session.get('me'), handler=kagami.handler)
 
 
 @app.route('/detail/<status_id>')
@@ -116,7 +116,7 @@ def detail(status_id: str):
     api = get_api(app.config['CK'], app.config['CS'], session.get('at'), session.get('as'))
     status = api.get_status(status_id)
     return render_template('detail.html', status=status,
-                           me=session.get('me'), date_handler=date_handle)
+                           me=session.get('me'), handler=kagami.handler)
 
 
 @app.route('/delete/<status_id>', methods=['GET', 'POST'])
@@ -129,4 +129,4 @@ def delete(status_id: str):
         api.destroy_status(status_id)
         return redirect(url_for('show'))
     return render_template('detail.html', status=status, delete=True,
-                           me=session.get('me'), date_handler=date_handle)
+                           me=session.get('me'), handler=kagami.handler)

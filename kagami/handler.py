@@ -1,6 +1,7 @@
 import re
 import datetime
 from flask import session
+import tweepy
 
 
 def add_at(name: str):
@@ -41,3 +42,10 @@ def minutes_handle(status_time: datetime.datetime):
 def date_handle(status_time: datetime.datetime):
     detail_time = status_time + datetime.timedelta(seconds=session.get('offset'))
     return detail_time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def tpd_handle(user: tweepy.User)-> float:
+    count = user.statuses_count
+    delta = datetime.datetime.now() - user.created_at
+    days = delta.days
+    return round(count/days, 2)

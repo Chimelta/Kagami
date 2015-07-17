@@ -1,6 +1,6 @@
 from kagami import app, get_api
 from flask import session, render_template, abort, request
-from kagami.handler import minutes_handle
+import kagami.handler
 
 
 @app.route('/mention')
@@ -15,4 +15,4 @@ def mention():
     return render_template('send.html', statuses=mention_list,
                            page=page, ppage=str(int(page)-1),
                            npage=str(int(page)+1), op='mention', me=session.get('me'),
-                           minutes_handler=minutes_handle)
+                           handler=kagami.handler)

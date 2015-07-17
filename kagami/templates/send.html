@@ -7,7 +7,7 @@
             {% for status in statuses %}
                 {% import 'status_macro.html' as status_macro %}
                 {{ status_macro.status_info(status=status, me=me,
-                   minutes=minutes_handler(status.created_at)) }}
+                   minutes=handler.minutes_handle(status.created_at)) }}
             {% else %}
             <li><em>Something wrong happened.</em></li>
             {% endfor %}

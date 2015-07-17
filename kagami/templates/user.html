@@ -6,12 +6,12 @@
         {% import 'user_macro.html' as user_macro %}
         {{ status_macro.textarea(op='update', head=head, text='Mention') }}
         <h1>{{ statuses[0].user.name }} (@{{ statuses[0].user.screen_name }})</h1>
-        {{ user_macro.user_info(user) }}
+        {{ user_macro.user_info(user, tpd=handler.tpd_handle(user)) }}
         <ul>
             {% for status in statuses %}
                 {% import 'status_macro.html' as status_macro %}
                 {{ status_macro.status_info(status=status, me=me,
-                   minutes=minutes_handler(status.created_at)) }}
+                   minutes=handler.minutes_handle(status.created_at)) }}
             {% endfor %}
             {{ page_macro.user_page_navigation(op='user', page=page, npage=npage, ppage=ppage, username=username) }}
         </ul>
