@@ -6,7 +6,7 @@
         {% import 'user_macro.html' as user_macro %}
         {{ status_macro.textarea(op='update', head=head, text='Mention') }}
         <h1>{{ statuses[0].user.name }} (@{{ statuses[0].user.screen_name }})</h1>
-        {{ user_macro.user_info(user, tpd=handler.tpd_handle(user)) }}
+        {{ user_macro.user_info(user, tpd=handler.tpd_handle(user), friendship=friendship) }}
         <ul>
             {% for status in statuses %}
                 {% import 'status_macro.html' as status_macro %}

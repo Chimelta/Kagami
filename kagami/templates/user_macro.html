@@ -1,9 +1,29 @@
-{% macro user_info(user, tpd) %}
+{% macro user_info(user, tpd, friendship) %}
     <div class="user_info">
-        <p>tweets: {{ user.statuses_count }}</p>
+        <div class="friendship">
+            {% if friendship != None %}
+                {% if friendship.following and friendship.followed_by %}
+                    <p>We are friends <a href="{{ url_for('unfollow', username=user.screen_name) }}">unfo</a></p>
+                {% elif friendship.following %}
+                    <p>following <a href="{{ url_for('unfollow', username=user.screen_name) }}">unfo</a></p>
+                {% elif friendship.followed_by %}
+                    <p>followed by <a href="{{ url_for('follow', username=user.screen_name) }}">follow</a></p>
+                {% else %}
+                    <p>stranger <a href="{{ url_for('follow', username=user.screen_name) }}">follow</a></p>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% if user.protected %}
+            <p>protected</p>
+        {% endif %}
+        <p class="bio">bio: {{ user.description|safe|urlize|nl2br }}</p>
+        <p class="count">tweets: {{ user.statuses_count }}</p>
         <p>followers: {{ user.followers_count }}</p>
         <p>following: {{ user.friends_count }}</p>
         <p>created at: {{ user.created_at }}</p>
         <p>tweets per day: {{ tpd }}</p>
     </div>
+    <dev class="operation">
+
+    </dev>
 {% endmacro %}
