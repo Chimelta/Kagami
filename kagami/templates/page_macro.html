@@ -1,14 +1,18 @@
 {% macro page_navigation(op, page, npage, ppage='1') %}
-    {% if page != '1' %}
-        <a href="{{ url_for(op, page=ppage) }}">previous</a>
-    {% endif %}
-    <a href="{{ url_for(op, page=npage) }}">next</a>
+    <div class="page_navigation">
+        {% if page != '1' %}
+            <a href="{{ url_for(op, page=ppage) }}">previous</a>
+        {% endif %}
+        <a href="{{ url_for(op, page=npage) }}">next</a>
+    </div>
 {% endmacro %}
 
 //TODO: integration
 {% macro user_page_navigation(op, page, npage, ppage='1', username) %}
-    {% if page != '1' %}
-        <a href="{{ url_for(op, username=username, page=ppage) }}">previous</a>
-    {% endif %}
-    <a href="{{ url_for(op, username=username, page=npage) }}">next</a>
+    <div class="page_navigation">
+        {% if page != '1' %}
+            <a href="{{ url_for(op, username=username, page=ppage) }}">previous</a>
+        {% endif %}
+        <a href="{{ url_for(op, username=username, page=npage) }}">next</a>
+    </div>
 {% endmacro %}

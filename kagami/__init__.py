@@ -5,9 +5,9 @@ from flask import Flask, session
 import tweepy
 
 DEBUG = True
-SECRET_KEY = 'aewrg32524234t*#B&%#JHBRET(#TE'
-CK = '3nVuSoBZnx6U4vzUxf5w'
-CS = 'Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys'
+SECRET_KEY = 'aewr232f3g3252423B&%#JHBRET(#TEsfawe24t23'
+CK = 'yN3DUNVO0Me63IAQdhTfCA'
+CS = 'c768oTKdzAjIYCmpSNIdZbGaG0t6rOhSFQP0S5uC79g'
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 context.load_cert_chain('kagami.crt', 'kagami.key')
 
