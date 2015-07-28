@@ -8,7 +8,7 @@
 {% endmacro %}
 
 //TODO: integration
-{% macro user_page_navigation(op, page, npage, ppage='1', username) %}
+{% macro user_page_navigation(op, page, npage, username, ppage='1') %}
     <div class="page_navigation">
         {% if page != '1' %}
             <a href="{{ url_for(op, username=username, page=ppage) }}">previous</a>
