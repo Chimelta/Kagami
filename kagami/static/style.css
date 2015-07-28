@@ -1,0 +1,71 @@
+
+h2{
+ font-size: 1.0em;
+ font-style:Italic;
+}
+
+ .start{
+ font-size: 2.0em;
+ background-attachment:fixed;
+ background-color: #000000;
+ color:#ffffff;
+
+}
+
+.login{
+ text-align: center;
+ font-size: 1.5em;
+ }
+
+body {
+background-color: #000000;
+}
+
+ a:link {
+color: #ffffff;
+text-decoration: none;
+}
+
+a:visited {
+color: #9D9D9D 	;
+text-decoration: none;
+}
+
+.page_navigation{
+font-style: Italic;
+}
+
+li {
+border: solid 2px grey;
+border-bottom-width: 0px;
+list-style:none;
+padding:1px;
+margin: 1px;
+}
+
+.operation {
+font-size: 0.8em;
+}
+
+.minute{
+font-size: 0.8em;
+}
+
+p {
+word-wrap:break-word;
+}
+
+.menu {
+position: fixed;
+background-color: black;
+width:100%;
+top: 0px;
+}
+
+.count {
+font-size:0.8em;
+}
+
+.bio {
+
+}

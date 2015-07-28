@@ -29,8 +29,9 @@
         <div class="status_content">
             {{ status.text|safe|urlize|nl2br }}
             <p>
-                {{ minutes }} ago
+                <div class ="minute">{{ minutes }} ago
                 <a href="{{ url_for('detail', status_id=status.id_str) }}">detail</a>
+                </div>
             </p>
         </div>
     </li>
