@@ -16,14 +16,15 @@
         {% if user.protected %}
             <p>protected</p>
         {% endif %}
-        <p class="bio">bio: {{ user.description|safe|urlize|nl2br }}</p>
-        <div class="count">
-            <p class="count">tweets: {{ user.statuses_count }}</p>
+          <div class="count_bio">
+            <p>bio: {{ user.description|safe|urlize|nl2br }}</p>
+            <p>tweets: {{ user.statuses_count }}</p>
             <p>followers: {{ user.followers_count }}</p>
             <p>following: {{ user.friends_count }}</p>
             <p>created at: {{ user.created_at }}</p>
             <p>tweets per day: {{ tpd }}</p>
-        </div>
+         </div>
+
     </div>
     <dev class="operation">
 
