@@ -1,4 +1,7 @@
-
+@font-face {
+font-family: 'DroidSansMono';
+src: url('DroidSansMono.ttf');
+}
 h2{
  font-size: 1.0em;
  font-style:Italic;
@@ -14,11 +17,13 @@ h2{
 
 .login{
  text-align: center;
- font-size: 1.5em;
+ font-size: 1.2em;
+ position: absolute; top:35%; left:45%;
  }
 
 body {
 background-color: #000000;
+font-family:DroidSansMono, sans-serif;
 }
 
  a:link {
@@ -34,7 +39,7 @@ text-decoration: none;
 li {
 list-style:none;
 padding:2px;
-margin: 10px;
+margin: 13px;
 background-color: #4F4F4F;
 width: auto;
 }
@@ -51,11 +56,11 @@ p {
 word-wrap:break-word;
 }
 
-.menu {
+.menu{
 position: fixed;
-background-color: black;
 width:100%;
 top: 0px;
+background-color: black;
 }
 
 .count_bio {
