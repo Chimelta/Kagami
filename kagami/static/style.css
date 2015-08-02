@@ -17,7 +17,7 @@ h2{
 
 .login{
  text-align: center;
- font-size: 1.2em;
+ font-size: 2.0em;
  position: absolute; top:35%; left:45%;
  }
 
@@ -38,7 +38,7 @@ text-decoration: none;
 
 li {
 list-style:none;
-padding:2px;
+padding:2px 2px 2px 15px;
 margin: 13px 40px 1px 1px;
 background-color: #4F4F4F;
 width: all;
@@ -61,6 +61,7 @@ position: fixed;
 width:100%;
 top: 0px;
 background-color: black;
+font-size: 1.35em;
 }
 
 .count_bio {
